@@ -2,32 +2,36 @@ package com.ymt.thinking.in.spring.ioc.overview.depedency.lookup;
 
 import com.ymt.thinking.in.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.Map;
+
 /**
- * Dependency lookup by name demo
+ * Dependency lookup by type demo
  *
  * @author yumingtao
  * @date 2021/9/25 19:22
  */
-public class DependencyLookupByNameDemo {
+public class DependencyLookupByTypeDemo {
     public static void main(String[] args) {
         //配置xml文件
         //启动Spring上下文
         BeanFactory beanFactory = new ClassPathXmlApplicationContext("META-INF/dependency-lookup-context.xml");
-        lookupInRealTime(beanFactory);
-        lookupInLazy(beanFactory);
+        lookupByType(beanFactory);
+        lookupCollectionByType(beanFactory);
     }
 
-    private static void lookupInRealTime(BeanFactory beanFactory) {
-        User user = (User) beanFactory.getBean("user");
-        System.out.println("Lookup in realtime:" + user);
+    private static void lookupByType(BeanFactory beanFactory) {
+        User user = beanFactory.getBean(User.class);
+        System.out.println("Lookup by type:" + user);
     }
 
-    private static void lookupInLazy(BeanFactory beanFactory) {
-        ObjectFactory<User> objectFactory = (ObjectFactory<User>) beanFactory.getBean("objectFactory");
-        User user = objectFactory.getObject();
-        System.out.println("Lookup in lazy:" + user);
+    private static void lookupCollectionByType(BeanFactory beanFactory) {
+        if(beanFactory instanceof ListableBeanFactory){
+            Map<String, User> users = ((ListableBeanFactory) beanFactory).getBeansOfType(User.class);
+            System.out.println("Lookup users by type:" + users);
+        }
     }
 }
