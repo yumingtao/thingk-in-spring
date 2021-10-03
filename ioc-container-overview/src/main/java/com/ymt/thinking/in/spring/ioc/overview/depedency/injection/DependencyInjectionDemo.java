@@ -4,6 +4,7 @@ import com.ymt.thinking.in.spring.ioc.overview.repository.UserRepository;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.Environment;
 
 /**
  * Dependency lookup by name demo
@@ -16,10 +17,12 @@ public class DependencyInjectionDemo {
         //配置xml文件
         //启动Spring上下文
         BeanFactory beanFactory = new ClassPathXmlApplicationContext("META-INF/dependency-injection-context.xml");
+
+        //依赖来源一：自定义的bean
         UserRepository userRepository = beanFactory.getBean("userRepository", UserRepository.class);
         //System.out.println(userRepository.getUsers());
 
-        //dependency injection
+        //依赖来源二：dependency injection(内建的依赖)
         System.out.println(userRepository.getBeanFactory());
         //System.out.println(userRepository.getBeanFactory() == beanFactory);
 
@@ -34,5 +37,8 @@ public class DependencyInjectionDemo {
         //(error)
         //System.out.println(beanFactory.getBean(BeanFactory.class));
 
+        //依赖来源三：container internal bean
+        Environment environment = beanFactory.getBean(Environment.class);
+        System.out.println("environment:" + environment);
     }
 }

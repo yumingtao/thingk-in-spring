@@ -17,6 +17,7 @@ public class UserRepository {
 
     //internal non-bean dependency
     private BeanFactory beanFactory;
+    
     private ObjectFactory<User> userObjectFactory;
     private ObjectFactory<ApplicationContext> objectFactory;
 
