@@ -20,8 +20,6 @@ public class UserRepository {
     private ObjectFactory<User> userObjectFactory;
     private ObjectFactory<ApplicationContext> objectFactory;
 
-
-
     public Collection<User> getUsers() {
         return users;
     }
